@@ -1,0 +1,109 @@
+{
+  "dataset": {
+    "shuffle_train": true,
+    "shuffle_eval": false,
+    "sample_rate": 1,
+    "img_size": [
+      224,
+      224
+    ],
+    "random_start": true,
+    "dataset_name": "LanguageTable-Synthetic",
+    "root": "datasets/lt_synthetic"
+  },
+  "model": {
+    "model_name": "DINOSAUR",
+    "DINOSAUR": {
+      "img_size": 224,
+      "num_slots": 8,
+      "slot_dim": 128,
+      "num_iterations_first": 3,
+      "num_iterations": 1,
+      "in_channels": 3,
+      "mlp_hidden": 512,
+      "mlp_encoder_dim": 768,
+      "initializer": "LearnedRandom",
+      "encoder_name": "vit_base_patch14_dinov2",
+      "encoder_num_blocks": 12,
+      "decoder_name": "MLPPatchDecoder",
+      "linear_feat_proj": true,
+      "decoder_params": {
+        "patch_size": 14,
+        "num_patches": 256,
+        "in_dim": 128,
+        "hidden_dim": 1024,
+        "out_dim": 769,
+        "num_layers": 4,
+        "initial_layer_norm": true,
+        "predict_pixels": true,
+        "num_layers_imgReconsDecoder": 4,
+        "imageReconsCNN_name": "ComplexCNNDecoder",
+        "imageReconsCNN_params": {
+          "ch": 64,
+          "ch_mult": [
+            1,
+            1,
+            2,
+            4,
+            8
+          ],
+          "num_res_blocks": 1,
+          "dropout": 0
+        }
+      },
+      "transition_module_params": {
+        "transition_module_name": "TransformerBlock",
+        "slot_dim": 128,
+        "num_heads": 4,
+        "mlp_size": 512,
+        "pre_norm": false,
+        "hidden_dim": 512,
+        "residual": false
+      }
+    },
+    "predictor": {
+      "predictor_name": "DFoT",
+      "DFoT": {
+        "model_hidden_size": 512,
+        "num_blocks": 8,
+        "num_heads": 8,
+        "mlp_ratio": 4.0,
+        "text_dropout_prob": 0.1,
+        "learn_sigma": false,
+        "buffer_size": 10,
+        "use_ema": true,
+        "load_ema": true,
+        "layer_norm_ca": true,
+        "pooling": false,
+        "zero_init": false,
+        "use_rope": true,
+        "adaln_cross_attention": true,
+        "use_temp_attn_layers": false,
+        "text_encoder_params": {
+          "model_name": "t5-small",
+          "hidden_size": 512,
+          "token_max_length": 20,
+          "use_text_preprocessing": false
+        },
+        "diffusion_params": {
+          "timestep_respacing": "",
+          "noise_schedule": "cosine",
+          "use_kl": false,
+          "sigma_small": false,
+          "predict_xstart": false,
+          "rescale_learned_sigmas": false,
+          "diffusion_steps": 1000
+        },
+        "preserve_slot_equivariance": true
+      }
+    }
+  },
+  "representation": {
+    "type": "slots",
+    "checkpoint": "checkpoints/lt_synthetic/dinosaur.pth",
+    "scale": 1.0
+  },
+  "training_prediction": {
+    "lr": 0.0002
+  }
+}

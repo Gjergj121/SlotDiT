@@ -1,0 +1,74 @@
+{
+  "dataset": {
+    "shuffle_train": true,
+    "shuffle_eval": false,
+    "random_start": true,
+    "img_size": [
+      224,
+      224
+    ],
+    "step_size": 1,
+    "clean_captions": true,
+    "canonicalize_captions": true,
+    "canonicalize_mode": "llm",
+    "drop_unknown_action": true,
+    "llm_canonicalization_path": "datasets/bridge/caption_canonicalization.json",
+    "dataset_name": "BridgeV2",
+    "root": "datasets/bridge"
+  },
+  "model": {
+    "predictor": {
+      "predictor_name": "DFoT-VAE",
+      "DFoT-VAE": {
+        "input_size": 16,
+        "patch_size": 1,
+        "in_channels": 768,
+        "model_hidden_size": 768,
+        "num_blocks": 12,
+        "num_heads": 8,
+        "mlp_ratio": 4.0,
+        "text_dropout_prob": 0.15,
+        "drop_path": 0.1,
+        "learn_sigma": false,
+        "buffer_size": 10,
+        "use_ema": true,
+        "load_ema": true,
+        "layer_norm_ca": true,
+        "pooling": false,
+        "zero_init": false,
+        "use_rope": true,
+        "adaln_cross_attention": true,
+        "use_temp_attn_layers": false,
+        "use_qk_norm": false,
+        "text_encoder_params": {
+          "model_name": "t5-small",
+          "hidden_size": 512,
+          "token_max_length": 20,
+          "use_text_preprocessing": true
+        },
+        "diffusion_params": {
+          "timestep_respacing": "",
+          "noise_schedule": "cosine",
+          "use_kl": false,
+          "sigma_small": false,
+          "predict_xstart": false,
+          "rescale_learned_sigmas": false,
+          "diffusion_steps": 1000,
+          "shift": 1.0,
+          "zero_terminal_snr": true
+        }
+      }
+    }
+  },
+  "representation": {
+    "type": "rae",
+    "decoder_config": "src/rae/configs/decoder/ViTB",
+    "decoder_checkpoint": "checkpoints/bridge/rae_decoder.pt",
+    "stats": "checkpoints/rae_stats.pt"
+  },
+  "training_prediction": {
+    "lr": 0.0001,
+    "optimizer": "adamw",
+    "weight_decay": 0.05
+  }
+}

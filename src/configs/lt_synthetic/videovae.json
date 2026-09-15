@@ -1,0 +1,64 @@
+{
+  "dataset": {
+    "shuffle_train": true,
+    "shuffle_eval": false,
+    "sample_rate": 1,
+    "img_size": [
+      256,
+      256
+    ],
+    "random_start": true,
+    "dataset_name": "LanguageTable-Synthetic",
+    "root": "datasets/lt_synthetic"
+  },
+  "model": {
+    "predictor": {
+      "predictor_name": "DFoT-VAE",
+      "DFoT-VAE": {
+        "input_size": 32,
+        "patch_size": 2,
+        "in_channels": 16,
+        "model_hidden_size": 512,
+        "num_blocks": 8,
+        "num_heads": 8,
+        "mlp_ratio": 4.0,
+        "text_dropout_prob": 0.1,
+        "learn_sigma": false,
+        "buffer_size": 3,
+        "use_ema": true,
+        "load_ema": true,
+        "layer_norm_ca": true,
+        "pooling": false,
+        "zero_init": false,
+        "use_rope": true,
+        "adaln_cross_attention": true,
+        "use_temp_attn_layers": false,
+        "text_encoder_params": {
+          "model_name": "t5-small",
+          "hidden_size": 512,
+          "token_max_length": 20,
+          "use_text_preprocessing": true
+        },
+        "diffusion_params": {
+          "timestep_respacing": "",
+          "noise_schedule": "cosine",
+          "use_kl": false,
+          "sigma_small": false,
+          "predict_xstart": false,
+          "rescale_learned_sigmas": false,
+          "diffusion_steps": 1000,
+          "shift": 1.0,
+          "zero_terminal_snr": true
+        }
+      }
+    }
+  },
+  "representation": {
+    "type": "videovae",
+    "config": "/path/to/videovae.yaml",
+    "checkpoint": "checkpoints/lt_synthetic/videovae.pth"
+  },
+  "training_prediction": {
+    "lr": 0.0001
+  }
+}
