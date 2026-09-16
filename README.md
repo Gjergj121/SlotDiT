@@ -4,7 +4,7 @@ Official implementation of *SlotDiT: Object-Centric Representations for Diffusio
 Transformers* by [Gjergj Plepi](https://www.linkedin.com/in/gjergj-plepi-928a4b196/)
 and [Sven Behnke](https://www.ais.uni-bonn.de/behnke/). BMVC 2026.
 
-[[`Project Page`](https://slot-dit.github.io/)]
+[[`Paper`](https://arxiv.org/abs/2609.17414)] [[`Project Page`](https://slot-dit.github.io/)]
 
 <table>
   <tr>
